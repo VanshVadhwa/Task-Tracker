@@ -4,9 +4,9 @@ import './App.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
-// --- SUB-COMPONENTS (Now defined OUTSIDE to fix the typing bug) ---
+// --- SUB-COMPONENTS ---
 
-const Navbar = ({ view, token, setView, handleLogout }) => (
+const Navbar = ({ token, setView, handleLogout }) => (
   <nav className="navbar">
     <div className="brand" onClick={() => setView(token ? 'dashboard' : 'landing')}>
       TaskTracker
@@ -39,47 +39,56 @@ const Landing = ({ setView }) => (
   </div>
 );
 
-const AuthForm = ({ type, username, setUsername, password, setPassword, handleAuth, error, setView, setError }) => (
-  <div className="centered-container">
-    <div className="auth-card">
-      <h2>{type === 'login' ? 'Welcome Back' : 'Create Account'}</h2>
-      {error && <p className="error-msg">{error}</p>}
-      
-      <div className="form-group">
-        <label>Username</label>
-        <input 
-          type="text" 
-          value={username} 
-          onChange={(e) => setUsername(e.target.value)} 
-          autoFocus
-        />
-      </div>
-      <div className="form-group">
-        <label>Password</label>
-        <input 
-          type="password" 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)} 
-        />
-      </div>
-      
-      <button className="full-width-btn" onClick={() => handleAuth(type === 'register')}>
-        {type === 'login' ? 'Log In' : 'Sign Up'}
-      </button>
+const AuthForm = ({ type, username, setUsername, password, setPassword, handleAuth, error, setView, setError }) => {
+  const onSubmit = (e) => {
+    e.preventDefault();
+    handleAuth(type === 'register');
+  };
 
-      <div className="switch-auth" onClick={() => { setError(''); setView(type === 'login' ? 'register' : 'login'); }}>
-        {type === 'login' ? "Don't have an account? Sign Up" : "Already have an account? Log In"}
+  return (
+    <div className="centered-container">
+      <div className="auth-card">
+        <h2>{type === 'login' ? 'Welcome Back' : 'Create Account'}</h2>
+        {error && <p className="error-msg">{error}</p>}
+
+        <form onSubmit={onSubmit}>
+          <div className="form-group">
+            <label>Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              autoFocus
+            />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <button type="submit" className="full-width-btn">
+            {type === 'login' ? 'Log In' : 'Sign Up'}
+          </button>
+        </form>
+
+        <div className="switch-auth" onClick={() => { setError(''); setView(type === 'login' ? 'register' : 'login'); }}>
+          {type === 'login' ? "Don't have an account? Sign Up" : "Already have an account? Log In"}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Dashboard = ({ tasks, input, setInput, addTask, toggleTask, deleteTask }) => (
   <div className="dashboard-container">
     <div className="task-input-group">
-      <input 
-        type="text" 
-        placeholder="What needs to be done?" 
+      <input
+        type="text"
+        placeholder="What needs to be done?"
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && addTask()}
@@ -89,18 +98,18 @@ const Dashboard = ({ tasks, input, setInput, addTask, toggleTask, deleteTask }) 
 
     <ul className="task-list">
       {tasks.length === 0 && <p className="empty-state">No tasks yet. Add one above!</p>}
-      
+
       {tasks.map(task => (
         <li key={task._id} className="task-item">
-          <label className="checkbox-container">
-            <input 
-              type="checkbox" 
-              checked={task.isCompleted} 
+          <label className="checkbox-wrapper">
+            <input
+              type="checkbox"
+              checked={task.isCompleted}
               onChange={() => toggleTask(task._id)}
             />
-            <span className="checkmark"></span>
+            <span className="custom-check"></span>
           </label>
-          
+
           <span className={`task-text ${task.isCompleted ? 'completed-text' : ''}`}>
             {task.title}
           </span>
@@ -111,14 +120,14 @@ const Dashboard = ({ tasks, input, setInput, addTask, toggleTask, deleteTask }) 
   </div>
 );
 
-// --- MAIN APP COMPONENT ---
+// --- MAIN APP LOGIC ---
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [input, setInput] = useState('');
   const [view, setView] = useState(localStorage.getItem('token') ? 'dashboard' : 'landing');
   const [token, setToken] = useState(localStorage.getItem('token'));
-  
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -182,21 +191,22 @@ function App() {
 
   return (
     <div className="app-root">
-      <Navbar view={view} token={token} setView={setView} handleLogout={handleLogout} />
-      
+      <Navbar token={token} setView={setView} handleLogout={handleLogout} />
+
       {view === 'landing' && <Landing setView={setView} />}
-      
+
       {(view === 'login' || view === 'register') && (
-        <AuthForm 
-          type={view} 
+        <AuthForm
+          type={view}
           username={username} setUsername={setUsername}
           password={password} setPassword={setPassword}
-          handleAuth={handleAuth} error={error} setView={setView} setError={setError}
+          handleAuth={handleAuth}
+          error={error} setView={setView} setError={setError}
         />
       )}
-      
+
       {view === 'dashboard' && (
-        <Dashboard 
+        <Dashboard
           tasks={tasks} input={input} setInput={setInput}
           addTask={addTask} toggleTask={toggleTask} deleteTask={deleteTask}
         />
