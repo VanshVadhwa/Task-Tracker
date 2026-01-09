@@ -20,18 +20,15 @@
 body {
   background-color: var(--bg-dark);
   color: var(--text-main);
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  width: 100%;
   overflow-x: hidden;
 }
 
-/* --- MAIN LAYOUT ENGINE --- */
+/* --- MAIN APP LAYOUT --- */
 .app-root {
-  display: flex;
-  flex-direction: column;
   min-height: 100vh;
   width: 100%;
-  align-items: center;   /* ← THIS is what you were missing */
 }
 
 /* --- NAVBAR --- */
@@ -39,8 +36,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background: rgba(15, 23, 42, 0.9);
+  padding: 1rem 1.5rem;
+  background: rgba(15, 23, 42, 0.95);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
   position: fixed;
@@ -49,11 +46,10 @@ body {
   right: 0;
   height: 80px;
   z-index: 100;
-  width: 100%;
 }
 
 .brand {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 800;
   cursor: pointer;
   letter-spacing: -1px;
@@ -83,23 +79,23 @@ body {
   background: var(--primary-hover);
 }
 
-/* --- CENTERED LAYOUT (FIXED) --- */
+/* --- CENTERED CONTAINER --- */
 .centered-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 80px);
-  /* subtract navbar height */
-  width: 100%;
   padding-top: 80px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  text-align: center;
 }
 
 /* --- HERO SECTION --- */
 .hero {
   max-width: 800px;
-  padding: 2rem;
-  margin: 0 auto;
-  text-align: center;
+  padding: 2rem 1rem;
   animation: fadeIn 0.8s ease-out;
 }
 
@@ -139,16 +135,16 @@ body {
   transform: scale(1.05);
 }
 
-/* --- AUTH CARD --- */
+/* --- AUTH CARD (LOGIN / REGISTER) --- */
 .auth-card {
-  width: 100%;
+  width: 90%;
   max-width: 420px;
   background: var(--bg-card);
-  padding: 2.5rem;
+  padding: 2rem;
   border-radius: 16px;
   border: 1px solid var(--border);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  margin: 0 auto;
+  text-align: left;
   animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -214,25 +210,25 @@ body {
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem;
-  padding-top: 140px;
+  padding: 1.5rem;
+  padding-top: 120px;
   min-height: 100vh;
 }
 
 .task-input-group {
   display: flex;
   gap: 15px;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .task-input-group input {
   flex-grow: 1;
-  padding: 1.2rem;
+  padding: 1rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 12px;
   color: white;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .task-input-group input:focus {
@@ -241,7 +237,7 @@ body {
 }
 
 .add-btn {
-  padding: 0 2.5rem;
+  padding: 0 2rem;
   background: var(--primary);
   color: white;
   border: none;
@@ -251,6 +247,7 @@ body {
   font-size: 1rem;
 }
 
+/* --- TASK LIST --- */
 .task-list {
   list-style: none;
 }
@@ -259,7 +256,7 @@ body {
   display: flex;
   align-items: center;
   background: var(--bg-card);
-  padding: 1.2rem;
+  padding: 1rem;
   margin-bottom: 1rem;
   border-radius: 12px;
   border: 1px solid var(--border);
@@ -273,7 +270,7 @@ body {
 
 .task-text {
   flex-grow: 1;
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin-left: 1rem;
 }
 
@@ -282,11 +279,11 @@ body {
   color: var(--text-muted);
 }
 
-/* Checkbox */
+/* --- CHECKBOX --- */
 .checkbox-wrapper {
   position: relative;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   cursor: pointer;
 }
 
@@ -300,8 +297,8 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  height: 24px;
-  width: 24px;
+  height: 22px;
+  width: 22px;
   border: 2px solid var(--text-muted);
   border-radius: 6px;
   transition: all 0.2s;
@@ -315,8 +312,8 @@ body {
 .checkbox-wrapper input:checked~.custom-check:after {
   content: "";
   position: absolute;
-  left: 7px;
-  top: 3px;
+  left: 6px;
+  top: 2px;
   width: 6px;
   height: 12px;
   border: solid white;
@@ -325,6 +322,7 @@ body {
   display: block;
 }
 
+/* --- DELETE BUTTON --- */
 .delete-btn {
   background: transparent;
   border: none;
@@ -339,7 +337,36 @@ body {
   color: var(--danger);
 }
 
-/* Animations */
+/* --- RESPONSIVE FIXES --- */
+@media (max-width: 640px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .task-input-group {
+    flex-direction: column;
+  }
+
+  .add-btn {
+    width: 100%;
+    padding: 0.9rem;
+  }
+
+  .dashboard-container {
+    padding: 1rem;
+    padding-top: 110px;
+  }
+
+  .task-text {
+    font-size: 0.95rem;
+  }
+}
+
+/* --- ANIMATIONS --- */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -355,7 +382,7 @@ body {
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: scale(0.9);
+    transform: scale(0.95);
   }
 
   to {
