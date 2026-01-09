@@ -1,0 +1,111 @@
+/* --- GLOBAL RESET & THEME --- */
+:root {
+  --bg-dark: #0f172a;
+  --bg-card: #1e293b;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border: #334155;
+  --danger: #ef4444;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; }
+
+.app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+}
+
+/* --- NAVBAR --- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  background: rgba(15, 23, 42, 0.95);
+  border-bottom: 1px solid var(--border);
+  position: fixed; /* Stick to top */
+  width: 100%;
+  top: 0;
+  z-index: 10;
+}
+
+.brand { font-size: 1.5rem; font-weight: 800; color: var(--text-main); cursor: pointer; }
+.nav-buttons button { margin-left: 1rem; padding: 0.6rem 1.2rem; background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-weight: 600; font-size: 0.95rem; }
+.nav-buttons button:hover { color: var(--text-main); }
+.nav-buttons .primary-btn { background-color: var(--primary); color: white; border-radius: 6px; }
+.nav-buttons .primary-btn:hover { background-color: var(--primary-hover); }
+
+/* --- CENTERED LAYOUT (For Login & Landing) --- */
+.centered-container {
+  flex-grow: 1; /* Takes up remaining space */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Vertical Center */
+  padding-top: 80px; /* Offset for fixed navbar */
+  min-height: 100vh;
+}
+
+.dashboard-container {
+  max-width: 800px;
+  margin: 120px auto 0; /* Top margin accounts for navbar */
+  padding: 2rem;
+  width: 100%;
+}
+
+/* --- HERO SECTION --- */
+.hero { text-align: center; max-width: 600px; animation: fadeIn 0.5s ease-out; }
+.hero h1 { font-size: 3rem; margin-bottom: 1.5rem; line-height: 1.1; }
+.hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem; }
+.hero-btn { padding: 1rem 2rem; font-size: 1.1rem; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
+
+/* --- AUTH CARD --- */
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--bg-card);
+  padding: 2.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.4s ease-out;
+}
+
+.auth-card h2 { text-align: center; margin-bottom: 2rem; font-size: 1.8rem; }
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.9rem; }
+.form-group input { width: 100%; padding: 0.8rem; background: var(--bg-dark); border: 1px solid var(--border); border-radius: 6px; color: white; font-size: 1rem; }
+.form-group input:focus { outline: none; border-color: var(--primary); }
+
+.full-width-btn { width: 100%; padding: 0.8rem; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 1rem; }
+.switch-auth { text-align: center; margin-top: 1.5rem; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; }
+.switch-auth:hover { color: var(--primary); }
+.error-msg { color: var(--danger); text-align: center; margin-bottom: 1rem; background: rgba(239, 68, 68, 0.1); padding: 0.5rem; border-radius: 4px; }
+
+/* --- TASK LIST --- */
+.task-input-group { display: flex; gap: 10px; margin-bottom: 2rem; }
+.task-input-group input { flex-grow: 1; padding: 1rem; background: var(--bg-card); border: 1px solid var(--border); color: white; border-radius: 8px; font-size: 1rem; }
+.add-btn { padding: 0 2rem; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
+
+.task-item { display: flex; align-items: center; background: var(--bg-card); padding: 1rem; margin-bottom: 0.8rem; border-radius: 8px; border: 1px solid var(--border); transition: transform 0.2s; }
+.task-item:hover { transform: translateY(-2px); border-color: var(--primary); }
+.task-text { flex-grow: 1; margin-left: 1rem; font-size: 1.1rem; }
+.completed-text { text-decoration: line-through; color: var(--text-muted); }
+.delete-btn { background: transparent; border: none; color: var(--danger); font-size: 1.2rem; cursor: pointer; padding: 0 0.5rem; }
+
+/* Custom Checkbox (Hidden Native, Styled Span) */
+.checkbox-container { position: relative; cursor: pointer; user-select: none; }
+.checkbox-container input { opacity: 0; cursor: pointer; height: 0; width: 0; }
+.checkmark { position: absolute; top: -10px; left: 0; height: 20px; width: 20px; background-color: transparent; border: 2px solid var(--text-muted); border-radius: 4px; }
+.checkbox-container input:checked ~ .checkmark { background-color: var(--primary); border-color: var(--primary); }
+.checkmark:after { content: ""; position: absolute; display: none; }
+.checkbox-container input:checked ~ .checkmark:after { display: block; }
+.checkbox-container .checkmark:after { left: 6px; top: 2px; width: 5px; height: 10px; border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
