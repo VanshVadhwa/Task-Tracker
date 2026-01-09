@@ -9,7 +9,11 @@ const app = express();
 
 // --- MIDDLEWARE ---
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "https://task-tracker-7ovk.onrender.com/",
+  credentials: true
+}));
+
 
 // --- DATABASE CONNECTION ---
 const MONGO_URI = process.env.MONGO_URI;
